@@ -67,3 +67,9 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def remove_item(id):
+    existing_items = get_items()
+    updated_items = list(filter(lambda x: x['id'] != id, existing_items))
+
+    session['items'] = updated_items
