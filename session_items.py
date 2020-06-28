@@ -1,18 +1,18 @@
 from flask import session
+import requests
+from trello_config_reader import get_config
 
-trell_api_key = get_config('api_key')
-trell_api_token = get_config('token')
+trello_root_url = 'https://api.trello.com/1'
+trello_board_id = '5ef8f1926a457142f41ac6ed'
+trello_todo_list_id = '5ef8f19a64a8ef61948d43fd'
+trello_done_list_id = '5ef8f19c4743080e63d5db1c'
+trello_api_key = get_config('api_key')
+trello_token = get_config('token')
 
 _DEFAULT_ITEMS = [
     { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
     { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
 ]
-
-def get_config(filename):
-    file = open(f'trello_config/{filename}.txt')
-    config = file.read()
-    file.close()
-    return config
 
 def get_items():
     """
@@ -21,7 +21,9 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    return session.get('items', _DEFAULT_ITEMS)
+    response = requests.get(f'{trello_root_url}/boards/{trello_board_id}/cards?key={trello_api_key}&token={trello_token}')
+    response.raise_for_status()
+    return response.json()
 
 
 def get_item(id):
@@ -48,18 +50,24 @@ def add_item(title):
     Returns:
         item: The saved item.
     """
-    items = get_items()
+    payload = {
+        'key': trello_api_key,
+        'token': trello_token,
+        'idList': trello_todo_list_id,
+        'name': title
+    }
+    response = requests.post(f'{trello_root_url}/cards', data=payload)
+    response.raise_for_status()
 
-    # Determine the ID for the item based on that of the previously added item
-    id = items[-1]['id'] + 1 if items else 0
 
-    item = { 'id': id, 'title': title, 'status': 'Not Started' }
-
-    # Add the item to the list
-    items.append(item)
-    session['items'] = items
-
-    return item
+def complete_item(id):
+    payload = {
+        'key': trello_api_key,
+        'token': trello_token,
+        'idList': trello_done_list_id
+    }
+    response = requests.put(f'{trello_root_url}/cards/{id}', data=payload)
+    response.raise_for_status()
 
 
 def save_item(item):

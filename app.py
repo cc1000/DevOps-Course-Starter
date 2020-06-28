@@ -6,7 +6,8 @@ app.config.from_object('flask_config.Config')
 
 @app.route('/')
 def index():
-    toDoItems = sorted(session.get_items(), key=lambda item: item['status'], reverse=True)
+    items = session.get_items()
+    toDoItems = sorted(session.get_items(), key=lambda item: item['idList'], reverse=True)
     return render_template('index.html', toDoItems=toDoItems)
 
 @app.route('/', methods=['POST'])
@@ -14,12 +15,10 @@ def add():
     session.add_item(request.form['title'])
     return redirect(url_for('index'))
 
-@app.route('/complete', methods=['POST'])
-def complete():
-    id = int(request.form['id'])
-    toDoItem = session.get_item(id)
-    toDoItem['status'] = 'Completed'
-    session.save_item(toDoItem)
+@app.route('/complete_item', methods=['GET'])
+def complete_item():
+    id = request.args.get('id')
+    session.complete_item(id)
     return redirect(url_for('index'))
 
 @app.route('/remove', methods=['POST'])

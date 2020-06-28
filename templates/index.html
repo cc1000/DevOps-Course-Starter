@@ -23,18 +23,20 @@
             {% for toDoItem in toDoItems %}
             <tr>
               <td>
-                {{toDoItem.title}}
+                {{toDoItem.name}}
+                {{toDoItem.idList}}
               </td>
               <td>
                 {{ toDoItem.status }}
                 {% if toDoItem.status == 'Completed' %}
-                &#10004;
+                Complete ✔
                 {% else %}
-                <button name="id" class="btn btn-success ml-2" value="{{toDoItem.id}}" formaction="/complete" title="Complete item">Complete &#10004;</button>
+                Incomplete 
+                <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">✔</a>
                 {% endif %}
               </td>
               <td>
-                <button name="id" class="btn btn-secondary" value="{{toDoItem.id}}" formaction="/remove" title="Remove item">Remove &#x274C;</button>
+                <button name="id" class="btn btn-secondary" value="{{toDoItem.id}}" formaction="/remove" title="Remove item">Remove ❌</button>
               </td>
             </tr>
             {% endfor %}
