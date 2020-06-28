@@ -1,10 +1,18 @@
 from flask import session
 
+trell_api_key = get_config('api_key')
+trell_api_token = get_config('token')
+
 _DEFAULT_ITEMS = [
     { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
     { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
 ]
 
+def get_config(filename):
+    file = open(f'trello_config/{filename}.txt')
+    config = file.read()
+    file.close()
+    return config
 
 def get_items():
     """
