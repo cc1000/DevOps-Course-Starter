@@ -27,10 +27,5 @@ def delete_item():
     session.delete_item(id)
     return redirect(url_for('index'))
 
-@app.route('/remove', methods=['POST'])
-def remove():
-    session.remove_item(int(request.form['id']))
-    return redirect(url_for('index'))
-
 if __name__ == '__main__':
     app.run()
