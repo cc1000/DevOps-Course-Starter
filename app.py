@@ -7,7 +7,7 @@ app.config.from_object('flask_config.Config')
 @app.route('/')
 def index():
     items = session.get_items()
-    toDoItems = sorted(session.get_items(), key=lambda item: item['idList'], reverse=True)
+    toDoItems = sorted(session.get_items(), key=lambda item: item.status, reverse=True)
     return render_template('index.html', toDoItems=toDoItems)
 
 @app.route('/', methods=['POST'])
