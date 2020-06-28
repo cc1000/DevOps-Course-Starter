@@ -70,6 +70,11 @@ def complete_item(id):
     response.raise_for_status()
 
 
+def delete_item(id):
+    response = requests.delete(f'{trello_root_url}/cards/{id}?key={trello_api_key}&token={trello_token}')
+    response.raise_for_status()
+
+
 def save_item(item):
     """
     Updates an existing item in the session. If no existing item matches the ID of the specified item, nothing is saved.

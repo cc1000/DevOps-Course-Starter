@@ -21,6 +21,12 @@ def complete_item():
     session.complete_item(id)
     return redirect(url_for('index'))
 
+@app.route('/delete_item', methods=['GET'])
+def delete_item():
+    id = request.args.get('id')
+    session.delete_item(id)
+    return redirect(url_for('index'))
+
 @app.route('/remove', methods=['POST'])
 def remove():
     session.remove_item(int(request.form['id']))

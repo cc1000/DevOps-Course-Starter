@@ -10,39 +10,37 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <form method="POST">
-        <table class="table table-dark table-striped table-hover table-sm">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for toDoItem in toDoItems %}
-            <tr>
-              <td>
-                {{toDoItem.name}}
-                {{toDoItem.idList}}
-              </td>
-              <td>
-                {{ toDoItem.status }}
-                {% if toDoItem.status == 'Completed' %}
-                Complete ✔
-                {% else %}
-                Incomplete 
-                <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">✔</a>
-                {% endif %}
-              </td>
-              <td>
-                <button name="id" class="btn btn-secondary" value="{{toDoItem.id}}" formaction="/remove" title="Remove item">Remove ❌</button>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </form>
+      <table class="table table-dark table-striped table-hover table-sm">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for toDoItem in toDoItems %}
+          <tr>
+            <td>
+              {{toDoItem.name}}
+              {{toDoItem.idList}}
+            </td>
+            <td>
+              {{ toDoItem.status }}
+              {% if toDoItem.status == 'Completed' %}
+              Complete ✔
+              {% else %}
+              Incomplete 
+              <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">✔</a>
+              {% endif %}
+            </td>
+            <td>
+              <a class="btn btn-light" href="{{ url_for('delete_item', id=toDoItem.id) }}" title="Delete item">Remove ❌</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
       <form action="/" method="POST">
         <div class="form-group row">
           <div class="col-sm-3">
