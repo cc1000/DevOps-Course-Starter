@@ -1,4 +1,3 @@
-from flask import session
 import requests
 from trello_config import trello_api_key, trello_token, trello_root_url, trello_board_id, trello_todo_list_id, trello_done_list_id
 from ToDoItem import ToDoItem
