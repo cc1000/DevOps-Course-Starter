@@ -29,7 +29,7 @@
               {% if toDoItem.status == 'Completed' %}
               ✔
               {% else %}
-              <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">✔</a>
+              <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">Complete ✔</a>
               {% endif %}
             </td>
             <td>
