@@ -12,7 +12,7 @@ def get_items():
     response = requests.get(f'{trello_config.root_url}/boards/{get_board_id()}/cards', params=params)
     response.raise_for_status()
     trello_cards = response.json()
-    return [ToDoItem(card, done_list_id) for card in trello_cards]
+    return [ToDoItem.from_trello_data(card, done_list_id) for card in trello_cards]
 
 def add_item(title):
     payload = {
