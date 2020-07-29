@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 import board_api as board_api
+from to_do_items_view_model import ToDoItemsViewModel
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    items = sorted(board_api.get_items(), key=lambda item: item.status, reverse=True)
-    return render_template('index.html', toDoItems=items)
+    to_do_items = sorted(board_api.get_items(), key=lambda item: item.status, reverse=True)
+    view_model = ToDoItemsViewModel(to_do_items)
+    return render_template('index.html', view_model=view_model)
 
 @app.route('/', methods=['POST'])
 def add():

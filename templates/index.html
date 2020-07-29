@@ -19,21 +19,21 @@
           </tr>
         </thead>
         <tbody>
-          {% for toDoItem in toDoItems %}
+          {% for to_do_item in view_model.to_do_items %}
           <tr>
             <td>
-              {{toDoItem.title}}
+              {{to_do_item.title}}
             </td>
             <td>
-              {{ toDoItem.status }}
-              {% if toDoItem.status == 'Completed' %}
+              {{ to_do_item.status }}
+              {% if to_do_item.status == 'Completed' %}
               ✔
               {% else %}
-              <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">Complete ✔</a>
+              <a class="btn btn-light" href="{{ url_for('complete_item', id=to_do_item.id) }}" title="Complete item">Complete ✔</a>
               {% endif %}
             </td>
             <td>
-              <a class="btn btn-light" href="{{ url_for('delete_item', id=toDoItem.id) }}" title="Delete item">Remove ❌</a>
+              <a class="btn btn-light" href="{{ url_for('delete_item', id=to_do_item.id) }}" title="Delete item">Remove ❌</a>
             </td>
           </tr>
           {% endfor %}
