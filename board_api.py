@@ -1,6 +1,6 @@
 import requests
 import trello_config
-from ToDoItem import ToDoItem
+from to_do_item import ToDoItem
 
 def get_items():
     params = {
