@@ -13,5 +13,11 @@ items = [
 def view_model() -> ToDoItemsViewModel:
     return ToDoItemsViewModel(items)
 
-def test_can_get_all_to_do_items(view_model):
-    assert view_model.to_do_items == items
+def test_can_get_all_items(view_model):
+    assert view_model.all_items == items
+
+def test_can_get_all_items_in_status_to_do(view_model):
+    items = view_model.to_do_items
+    assert len(items) == 2
+    assert items[0].id == 'id_1'
+    assert items[1].id == 'id_2'

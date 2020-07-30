@@ -2,53 +2,23 @@
 {% block title %}To-Do App{% endblock %}
 
 {% block content %}
-  <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Just another to-do app.</p>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-      <table class="table table-dark table-striped table-hover table-sm">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for to_do_item in view_model.to_do_items %}
-          <tr>
-            <td>
-              {{to_do_item.title}}
-            </td>
-            <td>
-              {{ to_do_item.status }}
-              {% if to_do_item.status == 'Completed' %}
-              ✔
-              {% else %}
-              <a class="btn btn-light" href="{{ url_for('complete_item', id=to_do_item.id) }}" title="Complete item">Complete ✔</a>
-              {% endif %}
-            </td>
-            <td>
-              <a class="btn btn-light" href="{{ url_for('delete_item', id=to_do_item.id) }}" title="Delete item">Remove ❌</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <form action="/" method="POST">
-        <div class="form-group row">
-          <div class="col-sm-3">
-            <input name="title" type="text" class="form-control" placeholder="Title">
-          </div>
-          <div class="col-sm-1">
-            <button type="submit" class="btn btn-primary">Add</button>
-          </div>
-        </div>
-      </form>
+<form action="/" method="POST">
+  <div class="form-group row">
+    <div class="col-sm-3">
+      <input name="title" type="text" class="form-control" placeholder="Title">
+    </div>
+    <div class="col-sm-1">
+      <button type="submit" class="btn btn-primary">Add</button>
     </div>
   </div>
+</form>
+
+{% with items=view_model.to_do_items, title='To Do' %}
+  {% include 'item_list.html' %}
+{% endwith %}
+
+{% with items=view_model.completed_items, title='Done' %}
+  {% include 'item_list.html' %}
+{% endwith %}
+
 {% endblock %}
