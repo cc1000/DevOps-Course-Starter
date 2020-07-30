@@ -13,12 +13,45 @@
   </div>
 </form>
 
-{% with items=view_model.to_do_items, title='To Do' %}
-  {% include 'item_list.html' %}
-{% endwith %}
+<div class="row">
+  <div class="col-md-12">
+      <h4>To do</h4>
+      {% with items=view_model.to_do_items %}
+          {% include 'item_list.html' %}
+      {% endwith %}
+  </div>
+</div>
 
-{% with items=view_model.completed_items, title='Done' %}
-  {% include 'item_list.html' %}
-{% endwith %}
+{% if view_model.show_all_completed_items %}
+  <div class="row">
+    <div class="col-md-12">
+        <h4>Completed</h4>
+        {% with items=view_model.completed_items %}
+            {% include 'item_list.html' %}
+        {% endwith %}
+    </div>
+  </div>
+{% else %}
+  <div class="row">
+    <div class="col-md-12">
+        <h4>Completed today</h4>
+        {% with items=view_model.recent_completed_items %}
+            {% include 'item_list.html' %}
+        {% endwith %}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        <h4>Completed before today</h4>
+        <details>
+            <summary>Show/hide...</summary>
+            {% with items=view_model.older_completed_items %}
+                {% include 'item_list.html' %}
+            {% endwith %}
+        </details>
+    </div>
+  </div>
+{% endif %}
 
 {% endblock %}
