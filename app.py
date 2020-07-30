@@ -2,7 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for
 import board_api as board_api
 from to_do_items_view_model import ToDoItemsViewModel
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    return app
+
+app = create_app()
 
 @app.route('/')
 def index():

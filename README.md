@@ -31,6 +31,8 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 ## Trello config
-To run the application you will need to add a directory on your local machine called "trello_config", containing two files:
-* "api_key.txt": containing Trello API key
-* "token.txt": containing a Tello user token generated with access to the board
+To run the application you will need to add the following config to your local .env file:
+* TRELLO_ROOT_URL: Trello API URL (eg https://api.trello.com/1)
+* TRELLO_API_KEY: Trello API key
+* TRELLO_TOKEN: Tello user token generated with access to the board
+* TRELLO_BOARD_NAME: NAme of Trello board to use for the app
