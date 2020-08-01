@@ -13,9 +13,9 @@
             </td>
             <td style="text-align: right;">
                 {% if item.status != 'Completed' %}
-                <a class="btn btn-light" href="{{ url_for('complete_item', id=item.id) }}" title="Complete item">✔</a>
+                <a name="completeItem" class="btn btn-light" href="{{ url_for('complete_item', id=item.id) }}" title="Complete item">✔</a>
                 {% endif %}
-                <a class="btn btn-light" href="{{ url_for('delete_item', id=item.id) }}" title="Delete item">❌</a>
+                <a name="deleteItem" class="btn btn-light" href="{{ url_for('delete_item', id=item.id) }}" title="Delete item">❌</a>
             </td>
         </tr>
         {% endfor %}

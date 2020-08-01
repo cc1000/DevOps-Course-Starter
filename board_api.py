@@ -23,7 +23,7 @@ def add_item(title):
     payload = {
         'key': get_api_key(),
         'token': get_token(),
-        'idList': get_list_id('ToDo'),
+        'idList': get_list_id('To Do'),
         'name': title
     }
     response = requests.post(f'{get_root_url()}/cards', data=payload)
