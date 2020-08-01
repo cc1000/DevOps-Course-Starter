@@ -37,5 +37,5 @@ To run the application you will need to add the following config to your local .
 * TRELLO_TOKEN: Tello user token generated with access to the board
 * TRELLO_BOARD_NAME: NAme of Trello board to use for the app
 
-## Running Selenium E2E tests
+## Setup for Selenium E2E tests
 Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver/releases/latest) and extract exe to root project directory. 

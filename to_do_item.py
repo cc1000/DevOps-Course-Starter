@@ -5,11 +5,11 @@ class ToDoItem:
     to_do_status = 'To Do'
     completed_status = 'Completed'
 
-    def __init__(self, id, name, status, lastModified):
+    def __init__(self, id, name, status, last_modified):
         self.id = id
         self.title = name
         self.status = status
-        self.lastModified = lastModified
+        self.last_modified = last_modified
 
     @staticmethod
     def from_trello_data(trello_item_data, done_list_id):
