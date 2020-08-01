@@ -65,3 +65,21 @@ def get_board_id():
     response.raise_for_status()
 
     return list(filter(lambda board: board['name'] == get_board_name(), response.json()))[0]['id']
+
+def create_board(name):
+    payload = {
+        'key': get_api_key(),
+        'token': get_token(),
+        'name': name
+    }
+    response = requests.post(f'{get_root_url()}/boards', data=payload)
+    response.raise_for_status()
+
+    board_id = response.json()['id']
+    return board_id
+
+def delete_board(id):
+    api_key = get_api_key()
+    token = get_token()
+    response = requests.delete(f'{get_root_url()}/boards/{id}?key={api_key}&token={token}')
+    response.raise_for_status()
