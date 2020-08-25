@@ -1,8 +1,9 @@
 # Created by https://www.gitignore.io/api/flask
 # Edit at https://www.gitignore.io/?templates=flask
 
-/trello_config/*
 /.vscode/*
+geckodriver.exe
+geckodriver.log
 
 ### Flask ###
 instance/*

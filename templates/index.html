@@ -2,53 +2,58 @@
 {% block title %}To-Do App{% endblock %}
 
 {% block content %}
-  <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Just another to-do app.</p>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-      <table class="table table-dark table-striped table-hover table-sm">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for toDoItem in toDoItems %}
-          <tr>
-            <td>
-              {{toDoItem.title}}
-            </td>
-            <td>
-              {{ toDoItem.status }}
-              {% if toDoItem.status == 'Completed' %}
-              ✔
-              {% else %}
-              <a class="btn btn-light" href="{{ url_for('complete_item', id=toDoItem.id) }}" title="Complete item">✔</a>
-              {% endif %}
-            </td>
-            <td>
-              <a class="btn btn-light" href="{{ url_for('delete_item', id=toDoItem.id) }}" title="Delete item">Remove ❌</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <form action="/" method="POST">
-        <div class="form-group row">
-          <div class="col-sm-3">
-            <input name="title" type="text" class="form-control" placeholder="Title">
-          </div>
-          <div class="col-sm-1">
-            <button type="submit" class="btn btn-primary">Add</button>
-          </div>
-        </div>
-      </form>
+<form action="/" method="POST">
+  <div class="form-group row">
+    <div class="col-sm-3">
+      <input name="title" type="text" class="form-control" placeholder="Title">
+    </div>
+    <div class="col-sm-1">
+      <button name="add" type="submit" class="btn btn-primary">Add</button>
     </div>
   </div>
+</form>
+
+<div id="allItems">
+  <div id="toDoItems" class="row">
+    <div class="col-md-12">
+        <h4>To do</h4>
+        {% with items=view_model.to_do_items %}
+            {% include 'item_list.html' %}
+        {% endwith %}
+    </div>
+  </div>
+
+  {% if view_model.show_all_completed_items %}
+    <div id="completedItems" class="row">
+      <div class="col-md-12">
+          <h4>Completed</h4>
+          {% with items=view_model.completed_items %}
+              {% include 'item_list.html' %}
+          {% endwith %}
+      </div>
+    </div>
+  {% else %}
+    <div id="completedItems" class="row">
+      <div class="col-md-12">
+          <h4>Completed today</h4>
+          {% with items=view_model.recent_completed_items %}
+              {% include 'item_list.html' %}
+          {% endwith %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+          <h4>Completed before today</h4>
+          <details>
+              <summary>Show/hide...</summary>
+              {% with items=view_model.older_completed_items %}
+                  {% include 'item_list.html' %}
+              {% endwith %}
+          </details>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
 {% endblock %}
