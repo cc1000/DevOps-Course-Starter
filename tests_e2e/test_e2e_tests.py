@@ -1,4 +1,5 @@
 import os
+from dotenv import find_dotenv, load_dotenv
 from threading import Thread
 import pytest
 import uuid
@@ -7,7 +8,9 @@ import app
 import board_api as board_api
 
 @pytest.fixture(scope='module')
-def test_app():    
+def test_app():
+    load_dotenv(find_dotenv('.env'), override=True)
+
     board_name = f'Corndell_tests_{uuid.uuid4()}'
     board_id = board_api.create_board(board_name)
     os.environ['TRELLO_BOARD_NAME'] = board_name

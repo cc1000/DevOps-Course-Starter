@@ -33,9 +33,14 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 ## Trello config
 To run the application you will need to add the following config to your local .env file:
 * TRELLO_ROOT_URL: Trello API URL (eg https://api.trello.com/1)
-* TRELLO_API_KEY: Trello API key
-* TRELLO_TOKEN: Tello user token generated with access to the board
-* TRELLO_BOARD_NAME: NAme of Trello board to use for the app
+* TRELLO_API_KEY: Trello API key (retrieve from https://trello.com/app-key)
+* TRELLO_TOKEN: Tello user token generated with access to the board  (generate from https://trello.com/app-key)
+* TRELLO_BOARD_NAME: Name of Trello board to use for the app
 
 ## Setup for Selenium E2E tests
 Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver/releases/latest) and extract exe to root project directory. 
+
+## Running tests
+In a terminal, run:
+* Integration tests: pytest tests/
+* E2E tests: pytest tests_e2e/
