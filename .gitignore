@@ -4,6 +4,7 @@
 /.vscode/*
 geckodriver.exe
 geckodriver.log
+.vagrant/
 
 ### Flask ###
 instance/*
