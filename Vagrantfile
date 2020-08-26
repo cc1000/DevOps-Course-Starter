@@ -8,33 +8,35 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "hashicorp/bionic64"
   
+  # Increase instance size to improve performance of installing python version below
   config.vm.provider "virtualbox" do |v|
     v.memory = 4096
     v.cpus = 2
   end
   
+  # Forward host port to app Flask port on VM
   config.vm.network "forwarded_port", guest: 5000, host: 5000
   
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
-	 sudo apt-get update
-	 
-	 # Install pyenv prerequisites
-	 sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
-	 
-	 # Install pyenv
-	 rm -r ~/.pyenv
-	 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-	 echo 'echo "Path:" $PATH' >> ~/.profile
-	 echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
-     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
-	 echo 'eval "$(pyenv init -)"' >> ~/.profile
-	 
-	 # Install Python 3.8.5
-	 echo 'python --version' >> ~/.profile
-	 echo 'pyenv install 3.8.5' >> ~/.profile
-	 echo 'pyenv global 3.8.5' >> ~/.profile
-	 echo 'python --version' >> ~/.profile
-     source ~/.profile
+    sudo apt-get update
+    
+    # Install pyenv prerequisites
+    sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
+    
+    # Install pyenv
+    rm -r ~/.pyenv
+    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+    echo 'echo "Path:" $PATH' >> ~/.profile
+    echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
+    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
+    echo 'eval "$(pyenv init -)"' >> ~/.profile
+    
+    # Install Python 3.8.5
+    echo 'python --version' >> ~/.profile
+    echo 'pyenv install 3.8.5' >> ~/.profile
+    echo 'pyenv global 3.8.5' >> ~/.profile
+    echo 'python --version' >> ~/.profile
+    source ~/.profile
   SHELL
   
   config.trigger.after :up do |trigger|
@@ -43,7 +45,7 @@ Vagrant.configure("2") do |config|
     trigger.run_remote = {privileged: false, inline: "
       # Install dependencies and launch
       cd /vagrant
-	  pip install -r requirements.txt
+      pip install -r requirements.txt
       flask run --host=0.0.0.0
     "}
   end
