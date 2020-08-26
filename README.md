@@ -42,5 +42,10 @@ Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver
 
 ## Running tests
 In a terminal, run:
-* Integration tests: pytest tests/
-* E2E tests: pytest tests_e2e/
+* Integration tests: ```pytest tests/```
+* E2E tests: ```pytest tests_e2e/```
+
+## Running in a VM
+* Install hypervisor (eg Windows Hyper-V or Oracle VirtualBox)
+* Install Vagrant
+* In a terminal in root of project, run: ```vagrant up```
