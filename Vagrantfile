@@ -26,16 +26,13 @@ Vagrant.configure("2") do |config|
     # Install pyenv
     rm -r ~/.pyenv
     git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-    echo 'echo "Path:" $PATH' >> ~/.profile
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
     echo 'eval "$(pyenv init -)"' >> ~/.profile
     
     # Install Python 3.8.5
-    echo 'python --version' >> ~/.profile
     echo 'pyenv install 3.8.5' >> ~/.profile
     echo 'pyenv global 3.8.5' >> ~/.profile
-    echo 'python --version' >> ~/.profile
     source ~/.profile
   SHELL
   
