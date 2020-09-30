@@ -34,6 +34,9 @@ Vagrant.configure("2") do |config|
     # Install Python 3.8.5
     pyenv install 3.8.5
     pyenv global 3.8.5
+
+    # Download poetry
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
   SHELL
   
   config.trigger.after :up do |trigger|
@@ -42,8 +45,8 @@ Vagrant.configure("2") do |config|
     trigger.run_remote = {privileged: false, inline: "
       # Install dependencies and launch
       cd /vagrant
-      pip install -r requirements.txt
-      flask run --host=0.0.0.0
+      poetry install
+      poetry run flask run --host=0.0.0.0
     "}
   end
 end
