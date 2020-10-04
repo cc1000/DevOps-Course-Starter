@@ -38,9 +38,15 @@ To run the application you will need to add the following config to your local .
 * TRELLO_BOARD_NAME: Name of Trello board to use for the app
 
 ## Setup for Selenium E2E tests
-Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver/releases/latest) and extract exe to root project directory. 
+* Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver/releases/latest) and extract exe to root project directory
+* Ensure Firefox is installed
 
 ## Running tests
 In a terminal, run:
-* Integration tests: pytest tests/
-* E2E tests: pytest tests_e2e/
+* Integration tests: ```pytest tests/```
+* E2E tests: ```pytest tests_e2e/```
+
+## Running in a VM
+* Install hypervisor (eg Windows Hyper-V or Oracle VirtualBox)
+* Install Vagrant
+* In a terminal in root of project, run: ```vagrant up```
