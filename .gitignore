@@ -5,6 +5,7 @@
 geckodriver.exe
 geckodriver.log
 .vagrant/
+.venv/
 
 ### Flask ###
 instance/*

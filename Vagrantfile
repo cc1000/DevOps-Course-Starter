@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
     pyenv install 3.8.5
     pyenv global 3.8.5
 
-    # Download poetry
+    # Install poetry
     curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
   SHELL
   
@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
       # Install dependencies and launch
       cd /vagrant
       poetry install
-      poetry run flask run --host=0.0.0.0
+      poetry run gunicorn -b 0.0.0.0:5000 wsgi
     "}
   end
 end
