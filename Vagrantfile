@@ -46,7 +46,7 @@ Vagrant.configure("2") do |config|
       # Install dependencies and launch
       cd /vagrant
       poetry install
-      poetry run gunicorn -b 0.0.0.0:5000 wsgi
+      nohup poetry run gunicorn -b 0.0.0.0:5000 wsgi > to_do.log 2>&1 &
     "}
   end
 end
