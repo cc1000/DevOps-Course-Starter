@@ -6,13 +6,13 @@ COPY poetry.toml /
 COPY poetry.lock pyproject.toml /
 
 FROM base as production
+ENTRYPOINT poetry run gunicorn -b 0.0.0.0:5000 --chdir /src wsgi
+RUN poetry install --no-dev --no-root
 COPY /src/templates/ /src/templates/
 COPY /src/*.py /src/
-RUN poetry install --no-dev --no-root
-ENTRYPOINT poetry run gunicorn -b 0.0.0.0:5000 --chdir /src wsgi
 
 FROM base as development
 ENV FLASK_ENV=development
-RUN poetry install --no-root
 # Relies on root source directory being mounted to /src
 ENTRYPOINT poetry run flask run --host=0.0.0.0
+RUN poetry install --no-root
