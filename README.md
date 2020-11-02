@@ -50,3 +50,4 @@ In a terminal, run:
 * Install hypervisor (eg Windows Hyper-V or Oracle VirtualBox)
 * Install Vagrant
 * In a terminal in root of project, run: ```vagrant up```
+* Or, for Docker, run ```docker-compose up -d``` (or ```docker-compose -f docker-compose.prod.yml up -d``` for prod)
