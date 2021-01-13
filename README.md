@@ -51,3 +51,8 @@ In a terminal, run:
 * Install Vagrant
 * In a terminal in root of project, run: ```vagrant up```
 * Or, for Docker, run ```docker-compose up -d``` (or ```docker-compose -f docker-compose.prod.yml up -d``` for prod)
+
+## Docker
+### Running tests in docker image
+* To build test target, run: ```docker build --target test --tag todo-app-test .```
+* To execute tests in container, run: ```docker run --env-file ./.env.test todo-app-test src/tests```

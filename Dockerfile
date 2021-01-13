@@ -16,3 +16,10 @@ ENV FLASK_ENV=development
 # Relies on root source directory being mounted to /src
 ENTRYPOINT poetry run flask run --host=0.0.0.0
 RUN poetry install --no-root
+
+FROM base as test
+ENTRYPOINT ["poetry", "run", "pytest"]
+RUN poetry install --no-root
+COPY /src/templates/ /src/templates/
+COPY /src/*.py /src/
+COPY /src/tests/*.py /src/tests/
