@@ -50,8 +50,8 @@ To run the application you will need to add the following config to your local .
 
 ## Running tests
 In a terminal, run:
-* Integration tests: ```pytest tests/```
-* E2E tests: ```pytest tests_e2e/```
+* Integration tests: ```src/pytest tests```
+* E2E tests: ```pytest src/tests_e2e```
 
 ## Running in a VM
 * Install hypervisor (eg Windows Hyper-V or Oracle VirtualBox)
@@ -62,4 +62,6 @@ In a terminal, run:
 ## Docker
 ### Running tests in docker image
 * To build test target, run: ```docker build --target test --tag todo-app-test .```
-* To execute tests in container, run: ```docker run --env-file ./.env.test todo-app-test src/tests```
+* To execute tests in container, run:
+    * Unit/integration: ```docker run --env-file ./.env.test todo-app-test src/tests```
+    * E2E: ``` docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=[INSERT VALUE] -e TRELLO_TOKEN=[INSERT VALUE] todo-app-test "src/tests_e2e"```

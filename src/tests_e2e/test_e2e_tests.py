@@ -33,7 +33,7 @@ def driver():
     opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--disable-dev-shm-usage')
-    with webdriver.Chrome(options=opts) as driver:
+    with webdriver.Chrome(executable_path='./chromedriver', options=opts) as driver:
         yield driver
 
 def test_load_page(test_app, driver):
