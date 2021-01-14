@@ -38,8 +38,15 @@ To run the application you will need to add the following config to your local .
 * TRELLO_BOARD_NAME: Name of Trello board to use for the app
 
 ## Setup for Selenium E2E tests
-* Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver/releases/latest) and extract exe to root project directory
-* Ensure Firefox is installed
+* Download the Chrome WebDriver
+    * Details [here](https://chromedriver.chromium.org/home) (you can get the latest version number [here](https://chromedriver.storage.googleapis.com/LATEST_RELEASE))
+    * Extract zip contents (chromedriver.exe) to root project directory
+    * Ensure Chrome is installed
+* To use Firefox instead of Chrome
+    * Download the Gecko WebDriver exe from [here](https://github.com/mozilla/geckodriver/releases/latest)
+    * Extract zip contents (geckodriver.exe) to root project directory
+    * Ensure Firefox is installed
+    * Change E2E tests to use Firefox as driver: ```with webdriver.Firefox() as driver```
 
 ## Running tests
 In a terminal, run:
