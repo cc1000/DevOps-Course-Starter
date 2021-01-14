@@ -1,6 +1,13 @@
 services:
   - docker
 
+notifications:
+  email:
+    recipients:
+      - cc@monexa.co.uk
+    on_success: always
+    on_failure: always
+
 before_install:
   - docker --version
 
