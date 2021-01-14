@@ -1,10 +1,14 @@
 services:
   - docker
 
+env:
+  - TEST_ENV_VAR=someTest
+
 before_install:
   - docker --version
 
 script:
+  - echo "Test env var = $TEST_ENV_VAR"
   - docker build --target production --tag todo-app .
   - docker build --target test --tag todo-app-test .
   - docker run --env-file ./.env.test todo-app-test src/tests
