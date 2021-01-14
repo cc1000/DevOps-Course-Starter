@@ -3,4 +3,9 @@ services:
 
 before_install:
   - docker --version
+
+script:
   - docker build --target production --tag todo-app .
+
+after_success:
+  - docker image ls
