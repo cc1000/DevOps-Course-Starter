@@ -6,6 +6,8 @@ before_install:
 
 script:
   - docker build --target production --tag todo-app .
+  - docker build --target test --tag todo-app-test .
+  - docker run --env-file ./.env.test todo-app-test src/tests
 
 after_success:
   - docker image ls
