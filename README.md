@@ -53,15 +53,23 @@ In a terminal, run:
 * Integration tests: ```src/pytest tests```
 * E2E tests: ```pytest src/tests_e2e```
 
-## Running in a VM
+## Running in a Vagrant VM
 * Install hypervisor (eg Windows Hyper-V or Oracle VirtualBox)
 * Install Vagrant
 * In a terminal in root of project, run: ```vagrant up```
-* Or, for Docker, run ```docker-compose up -d``` (or ```docker-compose -f docker-compose.prod.yml up -d``` for prod)
 
 ## Docker
-### Running tests in docker image
+Run ```docker-compose up -d --build``` (or ```docker-compose -f docker-compose.prod.yml up -d --build``` for prod).
+### Running tests in Docker image
 * To build test target, run: ```docker build --target test --tag todo-app-test .```
 * To execute tests in container, run:
     * Unit/integration: ```docker run --env-file ./.env.test todo-app-test src/tests```
     * E2E: ``` docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=[INSERT VALUE] -e TRELLO_TOKEN=[INSERT VALUE] todo-app-test "src/tests_e2e"```
+
+## Travis CI build
+### Secrets
+Sensitive environment variables (eg TRELLO_API_KEY, TRELLO_TOKEN) need to be set as variables in repository settings in Travis. 
+
+An alternative is to encrypt the environment variables and include in .travis.yml. However, I couldn't get this working using the Windows Ruby CLI tool. 
+
+Reference for both approaches [here](https://docs.travis-ci.com/user/environment-variables).
