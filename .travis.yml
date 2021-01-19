@@ -13,5 +13,9 @@ script:
   - docker run --env-file ./.env.test todo-app-test src/tests
   - docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=$TRELLO_API_KEY -e TRELLO_TOKEN=$TRELLO_TOKEN todo-app-test src/tests_e2e
   - docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:latest .
-  - echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
-  - docker push $DOCKER_HUB_USERNAME/todo-app:latest
+
+deploy:
+  - provider: script
+    script: bash build_scripts/publish_and_deploy.sh $DOCKER_HUB_USERNAME $DOCKER_HUB_PASSWORD
+    on:
+      branch: exercise-8
