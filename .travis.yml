@@ -1,0 +1,22 @@
+services:
+  - docker
+
+notifications:
+  email:
+    recipients:
+      - cc@monexa.co.uk
+    on_success: always
+    on_failure: always
+
+before_install:
+  - docker --version
+
+script:
+  - echo "Test env var = $TEST_ENV_VAR"
+  - docker build --target production --tag todo-app .
+  - docker build --target test --tag todo-app-test .
+  - docker run --env-file ./.env.test todo-app-test src/tests
+  - docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=$TRELLO_API_KEY -e TRELLO_TOKEN=$TRELLO_TOKEN todo-app-test src/tests_e2e
+
+after_success:
+  - docker image ls

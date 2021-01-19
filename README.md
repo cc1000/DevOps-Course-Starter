@@ -38,16 +38,38 @@ To run the application you will need to add the following config to your local .
 * TRELLO_BOARD_NAME: Name of Trello board to use for the app
 
 ## Setup for Selenium E2E tests
-* Download the Gecko Driver exe from [here](https://github.com/mozilla/geckodriver/releases/latest) and extract exe to root project directory
-* Ensure Firefox is installed
+* Download the Chrome WebDriver
+    * Details [here](https://chromedriver.chromium.org/home) (you can get the latest version number [here](https://chromedriver.storage.googleapis.com/LATEST_RELEASE))
+    * Extract zip contents (chromedriver.exe) to root project directory
+    * Ensure Chrome is installed
+* To use Firefox instead of Chrome
+    * Download the Gecko WebDriver exe from [here](https://github.com/mozilla/geckodriver/releases/latest)
+    * Extract zip contents (geckodriver.exe) to root project directory
+    * Ensure Firefox is installed
+    * Change E2E tests to use Firefox as driver: ```with webdriver.Firefox() as driver```
 
 ## Running tests
 In a terminal, run:
-* Integration tests: ```pytest tests/```
-* E2E tests: ```pytest tests_e2e/```
+* Integration tests: ```src/pytest tests```
+* E2E tests: ```pytest src/tests_e2e```
 
-## Running in a VM
+## Running in a Vagrant VM
 * Install hypervisor (eg Windows Hyper-V or Oracle VirtualBox)
 * Install Vagrant
 * In a terminal in root of project, run: ```vagrant up```
-* Or, for Docker, run ```docker-compose up -d``` (or ```docker-compose -f docker-compose.prod.yml up -d``` for prod)
+
+## Docker
+Run ```docker-compose up -d --build``` (or ```docker-compose -f docker-compose.prod.yml up -d --build``` for prod).
+### Running tests in Docker image
+* To build test target, run: ```docker build --target test --tag todo-app-test .```
+* To execute tests in container, run:
+    * Unit/integration: ```docker run --env-file ./.env.test todo-app-test src/tests```
+    * E2E: ``` docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=[INSERT VALUE] -e TRELLO_TOKEN=[INSERT VALUE] todo-app-test "src/tests_e2e"```
+
+## Travis CI build
+### Secrets
+Sensitive environment variables (eg TRELLO_API_KEY, TRELLO_TOKEN) need to be set as variables in repository settings in Travis. 
+
+An alternative is to encrypt the environment variables and include in .travis.yml. However, I couldn't get this working using the Windows Ruby CLI tool. 
+
+Reference for both approaches [here](https://docs.travis-ci.com/user/environment-variables).

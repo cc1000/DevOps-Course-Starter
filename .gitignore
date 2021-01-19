@@ -4,6 +4,7 @@
 /.vscode/*
 geckodriver.exe
 geckodriver.log
+chromedriver.exe
 .vagrant/
 .venv/
 to_do.log
