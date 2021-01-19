@@ -8,15 +8,10 @@ notifications:
     on_success: always
     on_failure: always
 
-before_install:
-  - docker --version
-
 script:
-  - echo "Test env var = $TEST_ENV_VAR"
   - docker build --target production --tag todo-app .
   - docker build --target test --tag todo-app-test .
   - docker run --env-file ./.env.test todo-app-test src/tests
   - docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=$TRELLO_API_KEY -e TRELLO_TOKEN=$TRELLO_TOKEN todo-app-test src/tests_e2e
-
-after_success:
-  - docker image ls
+  - echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+  - docker push $DOCKER_HUB_USERNAME/todo-app:latest
