@@ -17,6 +17,6 @@ script:
 
 deploy:
   - provider: script
-    script: bash build_scripts/publish_and_deploy.sh $DOCKER_HUB_USERNAME $HEROKU_USERNAME $HEROKU_API_TOKEN
+    script: bash build_scripts/publish_and_deploy.sh $DOCKER_HUB_USERNAME $HEROKU_USERNAME $HEROKU_API_KEY
     on:
       branch: exercise-8
