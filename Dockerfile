@@ -13,9 +13,11 @@ COPY poetry.lock pyproject.toml /
 # PRODUCTION
 #####
 FROM base as production
-ENTRYPOINT ["poetry run gunicorn -b 0.0.0.0:$PORT --chdir /src wsgi"]
+ENTRYPOINT ["/build_scripts/production_entrypoint.sh"]
 EXPOSE $PORT
 RUN poetry config virtualenvs.create false && poetry install --no-dev --no-root
+COPY /build_scripts/production_entrypoint.sh /build_scripts/production_entrypoint.sh
+RUN chmod a+x /build_scripts/production_entrypoint.sh
 COPY /src/templates/ /src/templates/
 COPY /src/*.py /src/
 
