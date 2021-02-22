@@ -23,4 +23,4 @@ deploy:
   - provider: script
     script: bash build_scripts/publish_and_deploy.sh $HEROKU_USERNAME $HEROKU_API_KEY
     on:
-      branch: exercise-8
+      branch: exercise-8-test
