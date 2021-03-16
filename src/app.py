@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, url_for
-import board_api as board_api
 import board_repository as board_repository
 from to_do_items_view_model import ToDoItemsViewModel
 
@@ -19,14 +18,12 @@ def create_app():
 
     @app.route('/complete_item', methods=['GET'])
     def complete_item():
-        id = request.args.get('id')
-        board_api.complete_item(id)
+        board_repository.complete_item(request.args.get('id'))
         return redirect(url_for('index'))
 
     @app.route('/delete_item', methods=['GET'])
     def delete_item():
-        id = request.args.get('id')
-        board_api.delete_item(id)
+        board_repository.delete_item(request.args.get('id'))
         return redirect(url_for('index'))
 
     return app
