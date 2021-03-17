@@ -30,12 +30,12 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## Trello config
+## Mongo Atlas config
 To run the application you will need to add the following config to your local .env file:
-* TRELLO_ROOT_URL: Trello API URL (eg https://api.trello.com/1)
-* TRELLO_API_KEY: Trello API key (retrieve from https://trello.com/app-key)
-* TRELLO_TOKEN: Tello user token generated with access to the board  (generate from https://trello.com/app-key)
-* TRELLO_BOARD_NAME: Name of Trello board to use for the app
+* MONGO_URI: URI of Mongo cluster (eg cluster0.hxawy.mongodb.net)
+* MONGO_USERNAME: Username for connecting to Mongo cluster/DB (retrieve from https://cloud.mongodb.com/v2/6049be1a61f4334ef8e891c7#security/database/users)
+* MONGO_PASSWORD: Password for Mongo user
+* MONGO_DB_NAME: Name of Mongo DB to use (eg todo_app)
 
 ## Setup for Selenium E2E tests
 * Download the Chrome WebDriver
@@ -64,11 +64,11 @@ Run ```docker-compose up -d --build``` (or ```docker-compose -f docker-compose.p
 * To build test target, run: ```docker build --target test --tag todo-app-test .```
 * To execute tests in container, run:
     * Unit/integration: ```docker run --env-file ./.env.test todo-app-test src/tests```
-    * E2E: ``` docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=[INSERT VALUE] -e TRELLO_TOKEN=[INSERT VALUE] todo-app-test "src/tests_e2e"```
+    * E2E: ``` docker run --env-file "./.env.test_e2e" -e MONGO_URI=[INSERT VALUE] -e MONGO_USERNAME=[INSERT VALUE] MONGO_PASSWORD=[INSERT VALUE] todo-app-test "src/tests_e2e"```
 
 ## Travis CI build
 ### Secrets
-Sensitive environment variables (eg TRELLO_API_KEY, TRELLO_TOKEN) need to be set as variables in repository settings in Travis. 
+Sensitive environment variables (eg Mongo settings) need to be set as variables in repository settings in Travis. 
 
 An alternative is to encrypt the environment variables and include in .travis.yml. However, I couldn't get this working using the Windows Ruby CLI tool. 
 
