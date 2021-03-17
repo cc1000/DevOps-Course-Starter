@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
-import board_repository as board_repository
+from board_repository import BoardRepository
 from to_do_items_view_model import ToDoItemsViewModel
 
 def create_app():
     app = Flask(__name__)
+    board_repository = BoardRepository()
 
     @app.route('/')
     def index():

@@ -5,15 +5,14 @@ import pytest
 import uuid
 from selenium import webdriver
 import app
-import board_api as board_api
+from board_repository import BoardRepository
 
 @pytest.fixture(scope='module')
 def test_app():
     load_dotenv(find_dotenv('.env'), override=True)
 
-    board_name = f'Corndell_tests_{uuid.uuid4()}'
-    board_id = board_api.create_board(board_name)
-    os.environ['TRELLO_BOARD_NAME'] = board_name
+    db_name = f'To_do_tests_{str(uuid.uuid4())[:8]}'
+    os.environ['MONGO_DB_NAME'] = db_name
 
     application = app.create_app()
 
@@ -25,7 +24,7 @@ def test_app():
 
     # Tear Down
     thread.join(1)
-    board_api.delete_board(board_id)
+    BoardRepository().delete_db()
 
 @pytest.fixture(scope='module')
 def driver():
