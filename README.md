@@ -67,6 +67,8 @@ Run ```docker-compose up -d --build``` (or ```docker-compose -f docker-compose.p
     * E2E: ``` docker run --env-file "./.env.test_e2e" -e MONGO_URI=[INSERT VALUE] -e MONGO_USERNAME=[INSERT VALUE] MONGO_PASSWORD=[INSERT VALUE] todo-app-test "src/tests_e2e"```
 
 ## Travis CI build
+https://travis-ci.com/github/cc1000/DevOps-Course-Starter
+
 ### Secrets
 Sensitive environment variables (eg Mongo settings) need to be set as variables in repository settings in Travis. 
 
