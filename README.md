@@ -30,12 +30,20 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## Mongo Atlas config
+## MongoDB
 To run the application you will need to add the following config to your local .env file:
-* MONGO_URI: URI of Mongo cluster (eg cluster0.hxawy.mongodb.net)
-* MONGO_USERNAME: Username for connecting to Mongo cluster/DB (retrieve from https://cloud.mongodb.com/v2/6049be1a61f4334ef8e891c7#security/database/users)
-* MONGO_PASSWORD: Password for Mongo user
+* MONGO_CONNECTION_STRING: Connection string to Mongo cluster (see below)
 * MONGO_DB_NAME: Name of Mongo DB to use (eg todo_app)
+
+### Atlas
+To point to a cloud-hosted Atlas cluster, set the connection string to ```mongodb+srv://<username>:<password>@cluster0.hxawy.mongodb.net```. User details can be fetched from [here](https://cloud.mongodb.com/v2/6049be1a61f4334ef8e891c7#security/database/users).
+
+### Local Docker
+To run Mongo in a local Docker container run ```docker run --name local-mongo -v <local data path>:/data/db -p 27017:27017 -d mongo:4.4.4-bionic```. Set ```local data path``` to a directory on your host machine for storing Mongo data (optional as the base image sets up a volume by default; see [here](https://hub.docker.com/_/mongo)).
+
+Set the connection string to ```mongodb://localhost```. 
+
+Alternatively just run the default docker-compose file as this will create the MongoDB container and override the connection string automatically.
 
 ## Setup for Selenium E2E tests
 * Download the Chrome WebDriver

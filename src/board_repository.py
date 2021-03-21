@@ -6,12 +6,10 @@ from datetime import datetime
 
 class BoardRepository:
     def __init__(self):
-        mongo_uri = os.environ['MONGO_URI']
-        mongo_username = os.environ['MONGO_USERNAME']
-        mongo_password = os.environ['MONGO_PASSWORD']
+        mongo_connection_string = os.environ['MONGO_CONNECTION_STRING']
         mongo_db_name = os.environ['MONGO_DB_NAME']
 
-        self.mongoClient = MongoClient(f'mongodb+srv://{mongo_username}:{mongo_password}@{mongo_uri}/?w=majority')
+        self.mongoClient = MongoClient(mongo_connection_string)
         self.db = self.mongoClient[mongo_db_name]
         self.itemsCollection = self.db.items
 

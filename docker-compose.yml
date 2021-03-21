@@ -10,7 +10,19 @@ services:
       - "5000:5000"
     env_file:
      - ./.env
+    environment:
+      - MONGO_CONNECTION_STRING=mongodb://mongo
     volumes:
       - type: bind
         source: ./src
         target: /src
+  mongo:
+    image: mongo:4.4.4-bionic
+    ports:
+      - "27017:27017"
+    expose:
+      - "27017"
+    volumes:
+      - type: bind
+        source: ./mongo_data
+        target: /data/db
