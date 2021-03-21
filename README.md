@@ -72,7 +72,7 @@ Run ```docker-compose up -d --build``` (or ```docker-compose -f docker-compose.p
 * To build test target, run: ```docker build --target test --tag todo-app-test .```
 * To execute tests in container, run:
     * Unit/integration: ```docker run --env-file ./.env.test todo-app-test src/tests```
-    * E2E: ``` docker run --env-file "./.env.test_e2e" -e MONGO_URI=[INSERT VALUE] -e MONGO_USERNAME=[INSERT VALUE] MONGO_PASSWORD=[INSERT VALUE] todo-app-test "src/tests_e2e"```
+    * E2E: ``` docker run --env-file "./.env.test_e2e" -e MONGO_CONNECTION_STRING=[INSERT VALUE] todo-app-test "src/tests_e2e"```
 
 ## Travis CI build
 https://travis-ci.com/github/cc1000/DevOps-Course-Starter
