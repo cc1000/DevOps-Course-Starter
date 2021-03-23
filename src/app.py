@@ -4,10 +4,12 @@ from to_do_items_view_model import ToDoItemsViewModel
 from flask_login import LoginManager, login_required, login_user
 from app_user import AppUser
 from auth_provider import AuthProvider
+import os
 
 def create_app():
     app = Flask(__name__)
     app.secret_key = "some_key"
+    app.config['LOGIN_DISABLED'] = os.environ['AUTHENTICATION_DISABLED'] == 'True'
 
     board_repository = BoardRepository()
     auth_provider = AuthProvider()

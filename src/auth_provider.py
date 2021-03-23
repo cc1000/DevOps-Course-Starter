@@ -1,9 +1,12 @@
 import os
 from oauthlib.oauth2 import WebApplicationClient
+import requests
+from app_user import AppUser
 
 class AuthProvider:
     def __init__(self):
         self.oauth_provider_base_uri = os.environ['OAUTH_PROVIDER_BASE_URI']
+        self.oauth_api_base_uri = os.environ['OAUTH_API_BASE_URI']
         self.oauth_client_id = os.environ['OAUTH_CLIENT_ID']
         self.oauth_client_secret = os.environ['OAUTH_CLIENT_SECRET']
 
@@ -11,7 +14,7 @@ class AuthProvider:
         client = WebApplicationClient(self.oauth_client_id)
         return client.prepare_request_uri(f'{self.oauth_provider_base_uri}/login/oauth/authorize')
 
-    def get_authenticated_user(auth_code):
+    def get_authenticated_user(self, auth_code):
         client = WebApplicationClient(self.oauth_client_id)
         
         self.get_access_token(client, auth_code)
@@ -31,7 +34,7 @@ class AuthProvider:
         client.parse_request_body_response(response.content)
 
     def get_user(self, client):
-        uri, headers, body = client.add_token(f'{self.oauth_provider_base_uri}/user')
+        uri, headers, body = client.add_token(f'{self.oauth_api_base_uri}/user')
 
         response = requests.get(uri, headers=headers)
         response.raise_for_status()
