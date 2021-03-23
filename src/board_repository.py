@@ -6,11 +6,8 @@ from datetime import datetime
 
 class BoardRepository:
     def __init__(self):
-        mongo_connection_string = os.environ['MONGO_CONNECTION_STRING']
-        mongo_db_name = os.environ['MONGO_DB_NAME']
-
-        self.mongoClient = MongoClient(mongo_connection_string)
-        self.db = self.mongoClient[mongo_db_name]
+        self.mongoClient = MongoClient(os.environ['MONGO_CONNECTION_STRING'])
+        self.db = self.mongoClient[os.environ['MONGO_DB_NAME']]
         self.itemsCollection = self.db.items
 
     def get_items(self):
