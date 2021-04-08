@@ -10,6 +10,11 @@ class AuthProvider:
         self.oauth_client_id = os.environ['OAUTH_CLIENT_ID']
         self.oauth_client_secret = os.environ['OAUTH_CLIENT_SECRET']
 
+        self.user_role_map = {
+            'cc1000': 'reader',
+            'someOtherUser': 'writer'
+        }
+
     def get_login_redirect_uri(self):
         client = WebApplicationClient(self.oauth_client_id)
         return client.prepare_request_uri(f'{self.oauth_provider_base_uri}/login/oauth/authorize')
@@ -18,7 +23,7 @@ class AuthProvider:
         client = WebApplicationClient(self.oauth_client_id)
         
         self.get_access_token(client, auth_code)
-        return self.get_user(client)
+        return self.get_user_from_response(client)
 
     def get_access_token(self, client, auth_code):
         token_uri, headers, body = client.prepare_token_request(
@@ -33,10 +38,18 @@ class AuthProvider:
 
         client.parse_request_body_response(response.content)
 
-    def get_user(self, client):
+    def get_user_from_response(self, client):
         uri, headers, body = client.add_token(f'{self.oauth_api_base_uri}/user')
 
         response = requests.get(uri, headers=headers)
         response.raise_for_status()
 
-        return AppUser(response.json()['login'])
+        user_id = response.json()['login']
+
+        return self.get_user(user_id)
+
+    def get_user(self, user_id):
+        return AppUser(user_id, self.get_role(user_id))
+
+    def get_role(self, user_id):
+        return self.user_role_map[user_id] if user_id in self.user_role_map else None

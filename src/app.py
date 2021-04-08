@@ -53,7 +53,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        return AppUser(user_id)
+        return auth_provider.get_user(user_id)
 
     login_manager.init_app(app)
 
