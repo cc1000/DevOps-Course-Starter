@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, current_app
 from board_repository import BoardRepository
 from to_do_items_view_model import ToDoItemsViewModel
-from flask_login import LoginManager, login_required, login_user
+from flask_login import LoginManager, login_required, login_user, current_user
+from flask_principal import Principal, Permission, RoleNeed, identity_changed, Identity, identity_loaded, UserNeed
 from app_user import AppUser
 from auth_provider import AuthProvider
 import os
@@ -15,8 +16,13 @@ def create_app():
     auth_provider = AuthProvider()
     login_manager = LoginManager()
 
+    Principal(app)
+    reader_permission = Permission(RoleNeed('reader'))
+    writer_permission = Permission(RoleNeed('writer'))
+
     @app.route('/')
     @login_required
+    @reader_permission.require(http_exception=403)
     def index():
         to_do_items = sorted(board_repository.get_items(), key=lambda item: item.status, reverse=True)
         view_model = ToDoItemsViewModel(to_do_items)
@@ -49,11 +55,20 @@ def create_app():
         user = auth_provider.get_authenticated_user(request.args.get('code'))
         login_user(user)
 
+        identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
+
         return redirect(url_for('index'))
 
     @login_manager.user_loader
     def load_user(user_id):
         return auth_provider.get_user(user_id)
+
+    @identity_loaded.connect_via(app)
+    def on_identity_loaded(sender, identity):
+        identity.user = current_user
+
+        identity.provides.add(UserNeed(current_user.id))
+        identity.provides.add(RoleNeed(current_user.role))
 
     login_manager.init_app(app)
 
