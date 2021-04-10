@@ -17,15 +17,15 @@ def create_app():
     login_manager = LoginManager()
 
     Principal(app)
-    reader_permission = Permission(RoleNeed(auth_provider.reader_role))
-    writer_permission = Permission(RoleNeed(auth_provider.writer_role))
+    reader_permission = Permission(RoleNeed(AuthProvider.READER_ROLE))
+    writer_permission = Permission(RoleNeed(AuthProvider.WRITER_ROLE))
 
     @app.route('/')
     @login_required
     @reader_permission.require(http_exception=403)
     def index():
         to_do_items = sorted(board_repository.get_items(), key=lambda item: item.status, reverse=True)
-        view_model = ToDoItemsViewModel(to_do_items)
+        view_model = ToDoItemsViewModel(user=current_user, items=to_do_items)
         return render_template('index.html', view_model=view_model)
 
     @app.route('/', methods=['POST'])

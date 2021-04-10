@@ -4,18 +4,18 @@ import requests
 from app_user import AppUser
 
 class AuthProvider:
+    READER_ROLE = 'reader'
+    WRITER_ROLE = 'writer'
+
     def __init__(self):
         self.oauth_provider_base_uri = os.environ['OAUTH_PROVIDER_BASE_URI']
         self.oauth_api_base_uri = os.environ['OAUTH_API_BASE_URI']
         self.oauth_client_id = os.environ['OAUTH_CLIENT_ID']
         self.oauth_client_secret = os.environ['OAUTH_CLIENT_SECRET']
 
-        self.reader_role = 'reader'
-        self.writer_role = 'writer'
-
         self.user_role_map = {
-            'cc1000': [self.reader_role, self.writer_role],
-            'someOtherUser': [self.reader_role]
+            'cc1000': [AuthProvider.READER_ROLE, AuthProvider.WRITER_ROLE],
+            'someOtherUser': [AuthProvider.READER_ROLE]
         }
 
     def get_login_redirect_uri(self):
