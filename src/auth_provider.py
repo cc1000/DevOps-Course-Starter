@@ -10,9 +10,12 @@ class AuthProvider:
         self.oauth_client_id = os.environ['OAUTH_CLIENT_ID']
         self.oauth_client_secret = os.environ['OAUTH_CLIENT_SECRET']
 
+        self.reader_role = 'reader'
+        self.writer_role = 'writer'
+
         self.user_role_map = {
-            'cc1000': 'reader',
-            'someOtherUser': 'writer'
+            'cc1000': [self.reader_role, self.writer_role],
+            'someOtherUser': [self.reader_role]
         }
 
     def get_login_redirect_uri(self):
@@ -49,7 +52,7 @@ class AuthProvider:
         return self.get_user(user_id)
 
     def get_user(self, user_id):
-        return AppUser(user_id, self.get_role(user_id))
+        return AppUser(user_id, self.get_roles(user_id))
 
-    def get_role(self, user_id):
+    def get_roles(self, user_id):
         return self.user_role_map[user_id] if user_id in self.user_role_map else None

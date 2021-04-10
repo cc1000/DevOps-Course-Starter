@@ -17,8 +17,8 @@ def create_app():
     login_manager = LoginManager()
 
     Principal(app)
-    reader_permission = Permission(RoleNeed('reader'))
-    writer_permission = Permission(RoleNeed('writer'))
+    reader_permission = Permission(RoleNeed(auth_provider.reader_role))
+    writer_permission = Permission(RoleNeed(auth_provider.writer_role))
 
     @app.route('/')
     @login_required
@@ -30,17 +30,20 @@ def create_app():
 
     @app.route('/', methods=['POST'])
     @login_required
+    @writer_permission.require(http_exception=403)
     def add():
         board_repository.add_item(request.form['title'])
         return redirect(url_for('index'))
 
     @app.route('/complete_item', methods=['GET'])
+    @writer_permission.require(http_exception=403)
     @login_required
     def complete_item():
         board_repository.complete_item(request.args.get('id'))
         return redirect(url_for('index'))
 
     @app.route('/delete_item', methods=['GET'])
+    @writer_permission.require(http_exception=403)
     @login_required
     def delete_item():
         board_repository.delete_item(request.args.get('id'))
@@ -68,7 +71,8 @@ def create_app():
         identity.user = current_user
 
         identity.provides.add(UserNeed(current_user.id))
-        identity.provides.add(RoleNeed(current_user.role))
+        for role in current_user.roles:
+            identity.provides.add(RoleNeed(role))
 
     login_manager.init_app(app)
 
