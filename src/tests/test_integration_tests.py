@@ -30,7 +30,7 @@ def test_index_page(monkeypatch, client):
         ]
     )
 
-    mock_user(monkeypatch, client)
+    mock_user(monkeypatch, client, roles=[AuthProvider.READER_ROLE])
 
     response = client.get('/')
 
@@ -40,10 +40,17 @@ def test_index_page(monkeypatch, client):
     assert 'Wash the car' in response_body
     assert 'Fly to space' in response_body
 
-def mock_user(monkeypatch, client):
-    user = AppUser('someUserId_get_authenticated_user', [AuthProvider.READER_ROLE])
+def test_index_page_returns_403_if_user_not_in_reader_role(monkeypatch, client):
+    mock_user(monkeypatch, client, roles=[AuthProvider.WRITER_ROLE])
+
+    response = client.get('/')
+
+    assert response.status_code == 403
+
+def mock_user(monkeypatch, client, roles):
+    user = AppUser('someUserId', roles)
 
     monkeypatch.setattr('auth_provider.AuthProvider.get_authenticated_user', lambda self, auth_code: user)
     monkeypatch.setattr('auth_provider.AuthProvider.get_user', lambda self, user_id: user)
 
-    client.get('/login/callback?code=someUserId_callback')
+    client.get('/login/callback?code=someUserId')
