@@ -5,6 +5,9 @@ import app
 from board_repository import BoardRepository
 from to_do_item import ToDoItem
 from datetime import datetime
+from auth_provider import AuthProvider
+from app_user import AppUser
+from flask_login import current_user
 
 @pytest.fixture
 def client():
@@ -19,13 +22,15 @@ def client():
         yield client
 
 def test_index_page(monkeypatch, client):  
-    def mock_get_items(self):
-        return [
+    monkeypatch.setattr(
+        'board_repository.BoardRepository.get_items', 
+        lambda self: [
             ToDoItem('123', 'Wash the car', 'To Do', datetime.now()),
             ToDoItem('456', 'Fly to space', 'Completed', datetime.now())
         ]
+    )
 
-    monkeypatch.setattr('board_repository.BoardRepository.get_items', mock_get_items)
+    mock_user(monkeypatch, client)
 
     response = client.get('/')
 
@@ -34,3 +39,11 @@ def test_index_page(monkeypatch, client):
     response_body = response.get_data(True)
     assert 'Wash the car' in response_body
     assert 'Fly to space' in response_body
+
+def mock_user(monkeypatch, client):
+    user = AppUser('someUserId_get_authenticated_user', [AuthProvider.READER_ROLE])
+
+    monkeypatch.setattr('auth_provider.AuthProvider.get_authenticated_user', lambda self, auth_code: user)
+    monkeypatch.setattr('auth_provider.AuthProvider.get_user', lambda self, user_id: user)
+
+    client.get('/login/callback?code=someUserId_callback')
