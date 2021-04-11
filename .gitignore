@@ -8,6 +8,7 @@ chromedriver.exe
 .vagrant/
 .venv/
 to_do.log
+/mongo_data
 
 ### Flask ###
 instance/*

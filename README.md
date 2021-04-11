@@ -30,12 +30,20 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## Trello config
+## MongoDB
 To run the application you will need to add the following config to your local .env file:
-* TRELLO_ROOT_URL: Trello API URL (eg https://api.trello.com/1)
-* TRELLO_API_KEY: Trello API key (retrieve from https://trello.com/app-key)
-* TRELLO_TOKEN: Tello user token generated with access to the board  (generate from https://trello.com/app-key)
-* TRELLO_BOARD_NAME: Name of Trello board to use for the app
+* MONGO_CONNECTION_STRING: Connection string to Mongo cluster (see below)
+* MONGO_DB_NAME: Name of Mongo DB to use (eg todo_app)
+
+### Atlas
+To point to a cloud-hosted Atlas cluster, set the connection string to ```mongodb+srv://<username>:<password>@cluster0.hxawy.mongodb.net```. User details can be fetched from [here](https://cloud.mongodb.com/v2/6049be1a61f4334ef8e891c7#security/database/users).
+
+### Local Docker
+To run Mongo in a local Docker container run ```docker run --name local-mongo -v <local data path>:/data/db -p 27017:27017 -d mongo:4.4.4-bionic```. Set ```local data path``` to a directory on your host machine for storing Mongo data (optional as the base image sets up a volume by default; see [here](https://hub.docker.com/_/mongo)).
+
+Set the connection string to ```mongodb://localhost```. 
+
+Alternatively just run the default docker-compose file as this will create the MongoDB container and override the connection string automatically.
 
 ## Setup for Selenium E2E tests
 * Download the Chrome WebDriver
@@ -64,11 +72,13 @@ Run ```docker-compose up -d --build``` (or ```docker-compose -f docker-compose.p
 * To build test target, run: ```docker build --target test --tag todo-app-test .```
 * To execute tests in container, run:
     * Unit/integration: ```docker run --env-file ./.env.test todo-app-test src/tests```
-    * E2E: ``` docker run --env-file "./.env.test_e2e" -e TRELLO_API_KEY=[INSERT VALUE] -e TRELLO_TOKEN=[INSERT VALUE] todo-app-test "src/tests_e2e"```
+    * E2E: ``` docker run --env-file "./.env.test_e2e" -e MONGO_CONNECTION_STRING=[INSERT VALUE] todo-app-test "src/tests_e2e"```
 
 ## Travis CI build
+https://travis-ci.com/github/cc1000/DevOps-Course-Starter
+
 ### Secrets
-Sensitive environment variables (eg TRELLO_API_KEY, TRELLO_TOKEN) need to be set as variables in repository settings in Travis. 
+Sensitive environment variables (eg Mongo settings) need to be set as variables in repository settings in Travis. 
 
 An alternative is to encrypt the environment variables and include in .travis.yml. However, I couldn't get this working using the Windows Ruby CLI tool. 
 
