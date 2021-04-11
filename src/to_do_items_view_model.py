@@ -3,12 +3,12 @@ from to_do_item import ToDoItem
 from auth_provider import AuthProvider
 
 class ToDoItemsViewModel:
-    def __init__(self, user, items):
-        self.user_is_writer = self.user_is_writer(user)
+    def __init__(self, user_roles, items):
+        self.user_is_writer = self.user_is_writer(user_roles)
         self._items = items
 
-    def user_is_writer(self, user):
-        return AuthProvider.WRITER_ROLE in user.roles
+    def user_is_writer(self, user_roles):
+        return AuthProvider.WRITER_ROLE in user_roles
 
     @property
     def all_items(self):

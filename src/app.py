@@ -10,40 +10,48 @@ import os
 def create_app():
     app = Flask(__name__)
     app.secret_key = "some_key"
-    app.config['LOGIN_DISABLED'] = os.environ['AUTHENTICATION_DISABLED'] == 'True'
 
     board_repository = BoardRepository()
     auth_provider = AuthProvider()
     login_manager = LoginManager()
 
+    auth_is_disabled = os.environ['AUTHENTICATION_DISABLED'] == 'True'
+    app.config['LOGIN_DISABLED'] = auth_is_disabled
+
     Principal(app)
     reader_permission = Permission(RoleNeed(AuthProvider.READER_ROLE))
     writer_permission = Permission(RoleNeed(AuthProvider.WRITER_ROLE))
 
+    def authorise(permission_decorator):
+        return lambda func: func if auth_is_disabled else permission_decorator(func)
+
+    def get_user_roles():
+        return current_user.roles if not auth_is_disabled else AuthProvider.ALL_ROLES
+
     @app.route('/')
     @login_required
-    @reader_permission.require(http_exception=403)
+    @authorise(reader_permission.require(http_exception=403))
     def index():
         to_do_items = sorted(board_repository.get_items(), key=lambda item: item.status, reverse=True)
-        view_model = ToDoItemsViewModel(user=current_user, items=to_do_items)
+        view_model = ToDoItemsViewModel(user_roles=get_user_roles(), items=to_do_items)
         return render_template('index.html', view_model=view_model)
 
     @app.route('/', methods=['POST'])
     @login_required
-    @writer_permission.require(http_exception=403)
+    @authorise(writer_permission.require(http_exception=403))
     def add():
         board_repository.add_item(request.form['title'])
         return redirect(url_for('index'))
 
     @app.route('/complete_item', methods=['GET'])
-    @writer_permission.require(http_exception=403)
+    @authorise(writer_permission.require(http_exception=403))
     @login_required
     def complete_item():
         board_repository.complete_item(request.args.get('id'))
         return redirect(url_for('index'))
 
     @app.route('/delete_item', methods=['GET'])
-    @writer_permission.require(http_exception=403)
+    @authorise(writer_permission.require(http_exception=403))
     @login_required
     def delete_item():
         board_repository.delete_item(request.args.get('id'))

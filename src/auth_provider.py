@@ -6,6 +6,7 @@ from app_user import AppUser
 class AuthProvider:
     READER_ROLE = 'reader'
     WRITER_ROLE = 'writer'
+    ALL_ROLES = [READER_ROLE, WRITER_ROLE]
 
     def __init__(self):
         self.oauth_provider_base_uri = os.environ['OAUTH_PROVIDER_BASE_URI']
