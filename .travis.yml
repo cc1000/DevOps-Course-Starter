@@ -22,4 +22,4 @@ deploy:
   - provider: script
     script: bash build_scripts/deploy.sh $AZURE_DEPLOYMENT_WEBHOOK_URL
     on:
-      branch: exercise-11
+      branch: master
