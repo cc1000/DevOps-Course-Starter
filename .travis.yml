@@ -17,10 +17,9 @@ script:
 
 before_deploy:
   - docker push $DOCKER_HUB_USERNAME/todo-app:latest
-  - docker tag $DOCKER_HUB_USERNAME/todo-app:latest registry.heroku.com/cree1000-todo-app/web
 
 deploy:
   - provider: script
-    script: bash build_scripts/publish_and_deploy.sh $HEROKU_USERNAME $HEROKU_API_KEY
+    script: bash build_scripts/deploy.sh $AZURE_DEPLOYMENT_WEBHOOK_URL
     on:
       branch: exercise-11
