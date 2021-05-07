@@ -13,6 +13,7 @@ def test_app():
 
     db_name = f'To_do_tests_{str(uuid.uuid4())[:8]}'
     os.environ['MONGO_DB_NAME'] = db_name
+    os.environ['AUTHENTICATION_DISABLED'] = 'True'
 
     application = app.create_app()
 

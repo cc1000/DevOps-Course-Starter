@@ -38,6 +38,14 @@ To run the application you will need to add the following config to your local .
 ### Atlas
 To point to a cloud-hosted Atlas cluster, set the connection string to ```mongodb+srv://<username>:<password>@cluster0.hxawy.mongodb.net```. User details can be fetched from [here](https://cloud.mongodb.com/v2/6049be1a61f4334ef8e891c7#security/database/users).
 
+## Authentication
+To authenticate you will need a GitHub account. For development, you will need to set the following environment variables from a GitHub account set up with OAuth linked to http://localhost:5000: ```OAUTH_CLIENT_ID```, ```OAUTH_CLIENT_SECRET```. 
+
+Authentication can be disabled by setting the environment variable ```AUTHENTICATION_DISABLED``` to false. 
+
+## Authorisation
+ATOW, users are hardcoded in ```AuthProvider``` (pending completion of module 10 stretch goals!). For now simply add your GitHub username here to access the app. 
+
 ### Local Docker
 To run Mongo in a local Docker container run ```docker run --name local-mongo -v <local data path>:/data/db -p 27017:27017 -d mongo:4.4.4-bionic```. Set ```local data path``` to a directory on your host machine for storing Mongo data (optional as the base image sets up a volume by default; see [here](https://hub.docker.com/_/mongo)).
 
