@@ -56,4 +56,4 @@ class AuthProvider:
         return AppUser(user_id, self.get_roles(user_id))
 
     def get_roles(self, user_id):
-        return self.user_role_map[user_id] if user_id in self.user_role_map else None
+        return self.user_role_map[user_id] if user_id in self.user_role_map else []
