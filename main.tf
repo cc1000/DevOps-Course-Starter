@@ -13,7 +13,6 @@ provider "azurerm" {
 
 data "azurerm_resource_group" "main" {
     name = "CreditSuisse1_ChrisCairns_ProjectExercise"
-    # location = "uksouth"
 }
 
 resource "azurerm_app_service_plan" "main" {
@@ -37,7 +36,7 @@ resource "azurerm_app_service" "main" {
 
     site_config {
         app_command_line = ""
-        linux_fx_version = "DOCKER|appsvcsample/pythonhelloworld:latest"
+        linux_fx_version = "DOCKER|appsvcsample/python-helloworld:latest"
     }
 
     app_settings = {
