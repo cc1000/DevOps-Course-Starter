@@ -28,6 +28,36 @@ resource "azurerm_app_service_plan" "main" {
     }
 }
 
+resource "azurerm_cosmosdb_account" "main" {
+    name = "tododbuser-terraform"
+    resource_group_name = data.azurerm_resource_group.main.name
+    location = data.azurerm_resource_group.main.location
+    offer_type = "Standard"
+    kind = "MongoDB"
+    mongo_server_version = "4.0"
+
+    capabilities {
+        name = "EnableServerless"
+    }
+
+    consistency_policy {
+        consistency_level = "BoundedStaleness"
+        max_interval_in_seconds = 10
+        max_staleness_prefix = 200
+    }
+
+    geo_location {
+        location = data.azurerm_resource_group.main.location
+        failover_priority = 0
+    }
+}
+
+resource "azurerm_cosmosdb_mongo_database" "main" {
+    name = "todo_app_terraform"
+    resource_group_name = data.azurerm_resource_group.main.name
+    account_name = azurerm_cosmosdb_account.main.name
+}
+
 resource "azurerm_app_service" "main" {
     name = "cc1000-corndell-todo-app-terraform"
     location = data.azurerm_resource_group.main.location
