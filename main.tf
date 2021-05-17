@@ -36,8 +36,16 @@ resource "azurerm_cosmosdb_account" "main" {
     kind = "MongoDB"
     mongo_server_version = "4.0"
 
+    lifecycle {
+        prevent_destroy = true
+    }
+
     capabilities {
         name = "EnableServerless"
+    }
+
+    capabilities {
+        name = "EnableMongo"
     }
 
     consistency_policy {
@@ -66,10 +74,11 @@ resource "azurerm_app_service" "main" {
 
     site_config {
         app_command_line = ""
-        linux_fx_version = "DOCKER|appsvcsample/python-helloworld:latest"
+        linux_fx_version = "DOCKER|cree1000/todo-app:latest"
     }
 
     app_settings = {
         "DOCKER_REGISTRY_SERVER_URL" = "https://index.docker.io"
+        "MONGO_CONNECTION_STRING" = "mongodb://${azurerm_cosmosdb_account.main.name}:${azurerm_cosmosdb_account.main.primary_key}@${azurerm_cosmosdb_account.main.name}.mongo.cosmos.azure.com:10255/DefaultDatabase?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000"
     }
 }
