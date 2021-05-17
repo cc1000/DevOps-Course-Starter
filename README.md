@@ -91,3 +91,9 @@ Sensitive environment variables (eg Mongo settings) need to be set as variables 
 An alternative is to encrypt the environment variables and include in .travis.yml. However, I couldn't get this working using the Windows Ruby CLI tool. 
 
 Reference for both approaches [here](https://docs.travis-ci.com/user/environment-variables).
+
+# Provisioning infrastructure
+
+Can be spun up using Terraform, as per ```.\main.tf```, using ```terraform apply```. Use ```terraform plan``` to see what actions it will perform. 
+
+To prevent inputting environment variables each time when running ```apply``` locally, create file ```.\terraform.tfvars``` and run ```terraform apply -var-file="terraform.tfvars"```.
