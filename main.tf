@@ -5,21 +5,22 @@ terraform {
       version = ">= 2.49"
     }
   }
-}
 
-provider "azurerm" {
-  features {}
+  backend "azurerm" {
+    resource_group_name  = "CreditSuisse1_ChrisCairns_ProjectExercise"
+    storage_account_name = "cc1000terraformstate"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 data "azurerm_resource_group" "main" {
   name = "CreditSuisse1_ChrisCairns_ProjectExercise"
 }
 
-# NOTE: I couldn't get this to work. I get an AuthorizationFailed error on action 'Microsoft.Resources/subscriptions/resourcegroups/read' for my Azure user (as per Slack message).
-# resource "azurerm_resource_group" "main" {
-#   name     = "${var.prefix}-resources"
-#   location = var.location
-# }
+provider "azurerm" {
+  features {}
+}
 
 resource "azurerm_app_service_plan" "main" {
   name                = "${var.prefix}-terraformed-asp"
@@ -42,9 +43,9 @@ resource "azurerm_cosmosdb_account" "main" {
   kind                 = "MongoDB"
   mongo_server_version = "4.0"
 
-  #   lifecycle {
-  #     prevent_destroy = true
-  #   }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 
   capabilities {
     name = "EnableServerless"

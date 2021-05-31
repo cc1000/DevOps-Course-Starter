@@ -97,3 +97,6 @@ Reference for both approaches [here](https://docs.travis-ci.com/user/environment
 Can be spun up using Terraform, as per ```.\main.tf```, using ```terraform apply```. Use ```terraform plan``` to see what actions it will perform. 
 
 To prevent inputting environment variables each time when running ```apply``` locally, create file ```.\terraform.tfvars``` and run ```terraform apply -var-file="terraform.tfvars"```.
+
+## State back-end
+State is stored in Azure Storage. You need to set the access key for the storage account used to an environment variable, using (on Windows) ```setx ARM_ACCESS_KEY <storage access key>```.
