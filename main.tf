@@ -43,9 +43,9 @@ resource "azurerm_cosmosdb_account" "main" {
   kind                 = "MongoDB"
   mongo_server_version = "4.0"
 
-  # lifecycle {
-  #   prevent_destroy = true
-  # }
+  lifecycle {
+    prevent_destroy = true
+  }
 
   capabilities {
     name = "EnableServerless"
