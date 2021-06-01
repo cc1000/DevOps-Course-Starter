@@ -23,7 +23,7 @@ install:
   - terraform init
 
 before_deploy:
-  - terraform apply -var="prefix=prod" -var="app-authentication-disabled="$AUTHENTICATION_DISABLED"" -var="app-flask-secret-key="$FLASK_SECRET_KEY"" -var="app-oauth-api-base-uri="$OAUTH_API_BASE_URI"" -var="app-oauth-client-id="$OAUTH_CLIENT_ID"" -var="app-oauth-client-secret="$OAUTH_CLIENT_SECRET"" -var="app-oauth-provider-base-uri="$OAUTH_PROVIDER_BASE_URI"" -auto-approve
+  - terraform apply -var="prefix=prod" -var="app-authentication-disabled=$AUTHENTICATION_DISABLED" -var="app-flask-secret-key=$FLASK_SECRET_KEY" -var="app-oauth-api-base-uri=$OAUTH_API_BASE_URI" -var="app-oauth-client-id=$OAUTH_CLIENT_ID" -var="app-oauth-client-secret=$OAUTH_CLIENT_SECRET" -var="app-oauth-provider-base-uri=$OAUTH_PROVIDER_BASE_URI" -auto-approve
   - docker push $DOCKER_HUB_USERNAME/todo-app:latest
 
 deploy:
