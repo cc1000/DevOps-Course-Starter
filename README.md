@@ -39,7 +39,7 @@ To run the application you will need to add the following config to your local .
 To point to a cloud-hosted Atlas cluster, set the connection string to ```mongodb+srv://<username>:<password>@cluster0.hxawy.mongodb.net```. User details can be fetched from [here](https://cloud.mongodb.com/v2/6049be1a61f4334ef8e891c7#security/database/users).
 
 ## Authentication
-To authenticate you will need a GitHub account. For development, you will need to set the following environment variables from a GitHub account set up with OAuth linked to http://localhost:5000: ```OAUTH_CLIENT_ID```, ```OAUTH_CLIENT_SECRET```. 
+To authenticate you will need a GitHub account. For development, you will need to set the following environment variables from a GitHub account set up with OAuth linked to http://localhost:5000: ```OAUTH_CLIENT_ID```, ```OAUTH_CLIENT_SECRET```. Call back route needs to be ```/login/callback```.
 
 Authentication can be disabled by setting the environment variable ```AUTHENTICATION_DISABLED``` to false. 
 

@@ -53,4 +53,5 @@ def mock_user(monkeypatch, client, roles):
     monkeypatch.setattr('auth_provider.AuthProvider.get_authenticated_user', lambda self, auth_code: user)
     monkeypatch.setattr('auth_provider.AuthProvider.get_user', lambda self, user_id: user)
 
+    # Invoke login callback to simulate successful login
     client.get('/login/callback?code=someUserId')

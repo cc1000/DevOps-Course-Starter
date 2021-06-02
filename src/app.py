@@ -9,7 +9,7 @@ import os
 
 def create_app():
     app = Flask(__name__)
-    app.secret_key = "some_key"
+    app.secret_key = os.environ['FLASK_SECRET_KEY']
 
     board_repository = BoardRepository()
     auth_provider = AuthProvider()

@@ -1,0 +1,1 @@
+curl -dH -X POST "$1"
