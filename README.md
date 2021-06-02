@@ -92,6 +92,11 @@ An alternative is to encrypt the environment variables and include in .travis.ym
 
 Reference for both approaches [here](https://docs.travis-ci.com/user/environment-variables).
 
+## Azure hosting
+App deployed as Azure App Service. Infrastructure created dynamically as below. Site is hosted based on prefix supplied in Terraform variable: https://```<prefix>```-```<app_service_name>```.azurewebsites.net. Eg:
+* https://dev-cc1000-corndell-todo-app-terraform.azurewebsites.net
+* https://prod-cc1000-corndell-todo-app-terraform.azurewebsites.net
+
 ## Provisioning infrastructure
 Can be spun up using Terraform, as per ```.\main.tf```, using ```terraform apply```. Use ```terraform plan``` to see what actions it will perform. 
 
