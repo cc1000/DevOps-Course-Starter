@@ -30,4 +30,4 @@ deploy:
   - provider: script
     script: bash build_scripts/deploy.sh '$(terraform output -raw cd_webhook)'
     on:
-      branch: exercise-12
+      branch: feature/exercise-12-non-pr-for-travis-deployment
