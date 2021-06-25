@@ -1,2 +1,2 @@
-echo "Calling webhook to trigger app restart: $1"
+echo "Calling webhook to trigger app restart"
 curl -dH -X POST "$1"
