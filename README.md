@@ -91,3 +91,21 @@ Sensitive environment variables (eg Mongo settings) need to be set as variables 
 An alternative is to encrypt the environment variables and include in .travis.yml. However, I couldn't get this working using the Windows Ruby CLI tool. 
 
 Reference for both approaches [here](https://docs.travis-ci.com/user/environment-variables).
+
+## Azure hosting
+App deployed as Azure App Service. Infrastructure created dynamically as below. Site is hosted based on prefix supplied in Terraform variable: https://```<prefix>```-```<app_service_name>```.azurewebsites.net. Eg:
+* https://dev-cc1000-corndell-todo-app-terraform.azurewebsites.net
+* https://prod-cc1000-corndell-todo-app-terraform.azurewebsites.net
+
+## Provisioning infrastructure
+Can be spun up using Terraform, as per ```.\main.tf```, using ```terraform apply```. Use ```terraform plan``` to see what actions it will perform. 
+
+To prevent inputting environment variables each time when running ```apply``` locally, create file ```.\terraform.tfvars``` and run ```terraform apply -var-file="terraform.tfvars"```.
+
+### State back-end
+State is stored in Azure Storage. You need to set the access key for the storage account used to environment variable ```ARM_ACCESS_KEY```.
+
+### Travis CI integration
+Add environment variable ```TF_VERSION=0.14.7```.
+
+The following environment variables are also needed to allow the CI server (eg Travis) to authenticate with Azure Storage: ```ARM_CLIENT_ID```, ```ARM_TENANT_ID```, ```ARM_SUBSCRIPTION_ID```, ```ARM_CLIENT_SECRET```. These come from the Service Principal created for CI.

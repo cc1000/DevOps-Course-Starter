@@ -15,11 +15,19 @@ script:
   - docker run --env-file "./.env.test_e2e" -e MONGO_CONNECTION_STRING=$MONGO_CONNECTION_STRING -e MONGO_DB_NAME=$MONGO_DB_NAME todo-app-test src/tests_e2e
   - docker build --target production --tag $DOCKER_HUB_USERNAME/todo-app:latest .
 
+install:
+  - wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
+  - unzip terraform_"$TF_VERSION"_linux_amd64.zip
+  - sudo mv terraform /usr/local/bin/
+  - rm terraform_"$TF_VERSION"_linux_amd64.zip
+  - terraform init
+
 before_deploy:
+  - terraform apply -var="prefix=prod" -var="app-authentication-disabled=$AUTHENTICATION_DISABLED" -var="app-flask-secret-key=$FLASK_SECRET_KEY" -var="app-oauth-api-base-uri=$OAUTH_API_BASE_URI" -var="app-oauth-client-id=$OAUTH_CLIENT_ID" -var="app-oauth-client-secret=$OAUTH_CLIENT_SECRET" -var="app-oauth-provider-base-uri=$OAUTH_PROVIDER_BASE_URI" -auto-approve
   - docker push $DOCKER_HUB_USERNAME/todo-app:latest
 
 deploy:
   - provider: script
-    script: bash build_scripts/deploy.sh $AZURE_DEPLOYMENT_WEBHOOK_URL
+    script: bash build_scripts/deploy.sh '$(terraform output -raw cd_webhook)'
     on:
       branch: master
