@@ -13,3 +13,4 @@ variable "app-oauth-api-base-uri" {}
 variable "app-oauth-client-id" {}
 variable "app-oauth-client-secret" {}
 variable "app-oauth-provider-base-uri" {}
+variable "loggly-token" {}

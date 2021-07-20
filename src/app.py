@@ -7,12 +7,14 @@ from flask_login import LoginManager, login_required, login_user, current_user
 from flask_principal import Principal, Permission, RoleNeed, identity_changed, Identity, identity_loaded, UserNeed
 from auth_provider import AuthProvider
 import os
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
 
 def create_app():
-    __init_logging()
-
     app = Flask(__name__)
     app.secret_key = os.environ['FLASK_SECRET_KEY']
+    
+    __init_logging(app)
 
     board_repository = BoardRepository()
     auth_provider = AuthProvider()
@@ -99,7 +101,13 @@ if __name__ == '__main__':
     app = create_app()
     app.run()
 
-def __init_logging():
+def __init_logging(app):
     rootLogger = logging.getLogger()
     rootLogger.setLevel(logging.INFO)
     rootLogger.addHandler(default_handler)
+
+    if os.environ['LOGGLY_TOKEN'] is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{os.environ["LOGGLY_TOKEN"]}/tag/todo-app')
+        handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
+        rootLogger.addHandler(handler)

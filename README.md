@@ -30,6 +30,9 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+## Logging
+Logs are sent to Loggly over HTTPS. Add an active customer token to the .env file, eg from [here](https://cc1000.loggly.com/tokens).
+
 ## MongoDB
 To run the application you will need to add the following config to your local .env file:
 * MONGO_CONNECTION_STRING: Connection string to Mongo cluster (see below)

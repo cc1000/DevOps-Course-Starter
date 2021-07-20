@@ -94,5 +94,6 @@ resource "azurerm_app_service" "main" {
     "OAUTH_CLIENT_ID"            = var.app-oauth-client-id
     "OAUTH_CLIENT_SECRET"        = var.app-oauth-client-secret
     "OAUTH_PROVIDER_BASE_URI"    = var.app-oauth-provider-base-uri
+    "LOGGLY_TOKEN"               = var.loggly-token
   }
 }
