@@ -1,13 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, current_app
+from flask.logging import default_handler
+import logging
 from board_repository import BoardRepository
 from to_do_items_view_model import ToDoItemsViewModel
 from flask_login import LoginManager, login_required, login_user, current_user
 from flask_principal import Principal, Permission, RoleNeed, identity_changed, Identity, identity_loaded, UserNeed
-from app_user import AppUser
 from auth_provider import AuthProvider
 import os
 
 def create_app():
+    __init_logging()
+
     app = Flask(__name__)
     app.secret_key = os.environ['FLASK_SECRET_KEY']
 
@@ -17,6 +20,8 @@ def create_app():
 
     auth_is_disabled = os.environ['AUTHENTICATION_DISABLED'] == 'True'
     app.config['LOGIN_DISABLED'] = auth_is_disabled
+    if auth_is_disabled:
+        app.logger.warning('Authentication is disabled')
 
     Principal(app)
     reader_permission = Permission(RoleNeed(AuthProvider.READER_ROLE))
@@ -68,6 +73,8 @@ def create_app():
 
         identity_changed.send(current_app._get_current_object(), identity=Identity(user.id))
 
+        app.logger.info(f'User {user.id} logged in')
+
         return redirect(url_for('index'))
 
     @login_manager.user_loader
@@ -84,8 +91,15 @@ def create_app():
 
     login_manager.init_app(app)
 
+    app.logger.info('Bootstrapped app')
+
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run()
+
+def __init_logging():
+    rootLogger = logging.getLogger()
+    rootLogger.setLevel(logging.INFO)
+    rootLogger.addHandler(default_handler)
