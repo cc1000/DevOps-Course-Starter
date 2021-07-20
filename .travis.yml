@@ -30,4 +30,4 @@ deploy:
   - provider: script
     script: bash build_scripts/deploy.sh '$(terraform output -raw cd_webhook)'
     on:
-      branch: master
+      branch: exercise-13
